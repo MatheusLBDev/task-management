@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class TaskConvert {
 
-    public TaskEntity convert(final TaskDto taskDto){
+    public TaskEntity ConvertTaskDtoToTaskEntity(final TaskDto taskDto){
         TaskEntity taskEntity = new TaskEntity();
         taskEntity.setTitle(taskDto.getTitle());
         taskEntity.setCreatedOn(taskDto.getCreatedOn());
@@ -18,7 +18,7 @@ public class TaskConvert {
         taskEntity.setUpdatedOn(taskDto.getUpdatedOn());
         return taskEntity;
     }
-    public TaskDto convert(final TaskEntity taskEntity){
+    public TaskDto ConvertTaskEntityToTaskDto(final TaskEntity taskEntity){
         TaskDto taskDto = new TaskDto();
         taskDto.setTitle(taskEntity.getTitle());
         taskDto.setCreatedOn(taskEntity.getCreatedOn());
