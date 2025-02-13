@@ -66,7 +66,7 @@ public class TaskService {
     }
 
     public List<TaskDto> getTaskList () {
-        return taskRepository.findAllByOrderCreatedOnDesc()
+        return taskRepository.findAllByOrderByCreatedOnDesc()
                 .stream()
                 .map(taskConvert::ConvertTaskEntityToTaskDto)
                 .collect(Collectors.toList());

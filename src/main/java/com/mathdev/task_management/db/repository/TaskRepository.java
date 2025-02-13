@@ -9,5 +9,5 @@ import java.util.UUID;
 
 @Repository
 public interface TaskRepository extends JpaRepository<TaskEntity, UUID> {
-    List<TaskEntity> findAllByOrderCreatedOnDesc();
+    List<TaskEntity> findAllByOrderByCreatedOnDesc();
 }

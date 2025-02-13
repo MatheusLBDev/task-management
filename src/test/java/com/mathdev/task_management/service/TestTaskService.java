@@ -119,7 +119,7 @@ public class TestTaskService {
     @Test
     public void testGetTaskList(){
         List<TaskEntity> taskEntityList= Arrays.asList(new TaskEntity(), new TaskEntity(), new TaskEntity());
-        when(taskRepository.findAllByOrderCreatedOnDesc()).thenReturn(taskEntityList);
+        when(taskRepository.findAllByOrderByCreatedOnDesc()).thenReturn(taskEntityList);
 
         TaskDto taskDto = new TaskDto();
         TaskEntity taskEntity = new TaskEntity();
@@ -129,7 +129,7 @@ public class TestTaskService {
 
         assertNotNull(taskDtosList);
         assertEquals(taskEntityList.size(), taskDtosList.size());
-        verify(taskRepository, times(1)).findAllByOrderCreatedOnDesc();
+        verify(taskRepository, times(1)).findAllByOrderByCreatedOnDesc();
         verify(taskConvert, times(taskEntityList.size())).ConvertTaskEntityToTaskDto((TaskEntity) any());
 
 
