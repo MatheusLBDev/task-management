@@ -11,11 +11,11 @@ public class TaskDto {
     @NotEmpty(message = "Title should not be null")
     private String title;
 
-    private Instant createdOn;
+    private String createdOn;
 
-    private Instant updatedOn;
+    private String updatedOn;
     @NotEmpty(message = "Expire Date cannot be empty, please inform!")
-    private Instant expireOn;
+    private String expireOn;
 
     private Priority priority;
 
@@ -43,27 +43,28 @@ public class TaskDto {
         this.title = title;
     }
 
-    public Instant getCreatedOn() {
+
+    public String getCreatedOn() {
         return createdOn;
     }
 
-    public void setCreatedOn(Instant createdOn) {
+    public void setCreatedOn(String createdOn) {
         this.createdOn = createdOn;
     }
 
-    public Instant getUpdatedOn() {
+    public String getUpdatedOn() {
         return updatedOn;
     }
 
-    public void setUpdatedOn(Instant updatedOn) {
+    public void setUpdatedOn(String updatedOn) {
         this.updatedOn = updatedOn;
     }
 
-    public Instant getExpireOn() {
+    public String getExpireOn() {
         return expireOn;
     }
 
-    public void setExpireOn(Instant expireOn) {
+    public void setExpireOn(String expireOn) {
         this.expireOn = expireOn;
     }
 
