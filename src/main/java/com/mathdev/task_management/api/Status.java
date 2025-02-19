@@ -1,21 +1,21 @@
 package com.mathdev.task_management.api;
 
 public enum Status{
-    DONE("Done"),
-    READY("Ready"),
-    PROGRESS("Progress");
+    Done("Done"),
+    Ready("Ready"),
+    Progress("Progress");
 
     private String description;
 
-    Status (String descreption) {
-        this.description = descreption;
+    Status (String description) {
+        this.description = description;
     }
 
-    public String getDescreption() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescreption(String descreption) {
-        this.description = descreption;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

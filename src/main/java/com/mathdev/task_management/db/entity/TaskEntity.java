@@ -81,8 +81,9 @@ public class TaskEntity {
         return expireOn;
     }
 
-    public void setExpireOn(Instant expireOn) {
+    public Instant setExpireOn(Instant expireOn) {
         this.expireOn = expireOn;
+        return expireOn;
     }
 
     public Priority getPriority() {
@@ -108,4 +109,16 @@ public class TaskEntity {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @PrePersist
+    protected void onCreate(){
+        this.createdOn = Instant.now();
+        this.updatedOn = Instant.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate(){
+        this.updatedOn = Instant.now();
+    }
+
 }

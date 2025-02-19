@@ -86,11 +86,11 @@ public class TestTaskService {
     public void testUpdateTask() {
         TaskDto taskDto = new TaskDto();
         taskDto.setTitle("Teste");
-        Instant date = Instant.now();
+        String date = Instant.now().toString();
         //taskDto.setCreatedOn(date);
-        //taskDto.setExpireOn(date);
-        taskDto.setPriority(Priority.HIGH);
-        taskDto.setStatus(Status.READY);
+        taskDto.setExpireOn(date);
+        taskDto.setPriority(String.valueOf(Priority.High));
+        taskDto.setStatus(Status.Ready);
         taskDto.setDescription("Teste");
         //taskDto.setUpdatedOn(date);
         UUID id = UUID.randomUUID();
@@ -98,20 +98,24 @@ public class TestTaskService {
 
         TaskEntity taskEntity = new TaskEntity();
         taskEntity.setId(taskDto.getId());
+        Instant expireOnInstant = Instant.now();
+        when(taskConvert.convertStringToInstant(date)).thenReturn(expireOnInstant);
+        taskEntity.setExpireOn(expireOnInstant);
         when(taskRepository.findById(taskDto.getId())).thenReturn(Optional.of(taskEntity));
 
         taskService.updateTask(taskDto);
 
         verify(taskRepository,times(1)).findById(taskDto.getId());
         verify(taskRepository,times(1)).save(taskEntity);
+        verify(taskConvert, times(1)).convertStringToInstant(date);
 
         assertEquals("Teste", taskEntity.getTitle());
         assertEquals("Teste", taskEntity.getDescription());
-        assertEquals(date, taskEntity.getCreatedOn());
-        assertEquals(date, taskEntity.getExpireOn());
-        assertEquals(date, taskEntity.getUpdatedOn());
-        assertEquals(Priority.HIGH, taskEntity.getPriority());
-        assertEquals(Status.READY, taskEntity.getStatus());
+        //assertEquals(date, taskEntity.getCreatedOn());
+        assertEquals(expireOnInstant, taskEntity.getExpireOn());
+        //assertEquals(date, taskEntity.getUpdatedOn());
+        assertEquals(Priority.High, taskEntity.getPriority());
+        assertEquals(Status.Ready, taskEntity.getStatus());
         assertEquals(id, taskEntity.getId());
 
     }

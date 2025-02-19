@@ -54,12 +54,10 @@ public class TaskService {
             if (optionalTaskEntity.isPresent()) {
                 TaskEntity taskEntity = optionalTaskEntity.get();
                 taskEntity.setTitle(taskDto.getTitle());
-                //taskEntity.setCreatedOn(taskDto.getCreatedOn());
-                //taskEntity.setExpireOn(taskDto.getExpireOn());
-                taskEntity.setPriority(taskDto.getPriority());
+                taskEntity.setExpireOn(taskConvert.convertStringToInstant(taskDto.getExpireOn()));
+                taskEntity.setPriority(Priority.valueOf(taskDto.getPriority()));
                 taskEntity.setStatus(taskDto.getStatus());
                 taskEntity.setDescription(taskDto.getDescription());
-                //taskEntity.setUpdatedOn(taskDto.getUpdatedOn());
                 taskRepository.save(taskEntity);
             } else {
                 throw new TaskNotFoundExceptions("Task with id" + taskDto.getId() + "not found");
@@ -76,10 +74,10 @@ public class TaskService {
                 .collect(Collectors.toList());
     }
     public List<String> getPriorities() {
-        return Arrays.asList(Priority.NORMAL.toString(), Priority.HIGH.toString(), Priority.LOW.toString());
+        return List.of(Priority.Low.toString(), Priority.High.toString(), Priority.Normal.toString());
     }
     public List<String> getStatus() {
-        return Arrays.asList(Status.READY.toString(), Status.PROGRESS.toString(), Status.DONE.toString());
+        return List.of(Status.Ready.toString(), Status.Progress.toString(), Status.Done.toString());
     }
 
 

@@ -2,7 +2,7 @@ package com.mathdev.task_management.api;
 
 import jakarta.validation.constraints.NotEmpty;
 
-import java.time.Instant;
+
 import java.util.UUID;
 
 public class TaskDto {
@@ -17,7 +17,8 @@ public class TaskDto {
     @NotEmpty(message = "Expire Date cannot be empty, please inform!")
     private String expireOn;
 
-    private Priority priority;
+
+    private String priority;
 
     private Status status;
     @NotEmpty(message = "Description is mandatory")
@@ -68,11 +69,11 @@ public class TaskDto {
         this.expireOn = expireOn;
     }
 
-    public Priority getPriority() {
+    public String getPriority() {
         return priority;
     }
 
-    public void setPriority(Priority priority) {
+    public void setPriority(String priority) {
         this.priority = priority;
     }
 
