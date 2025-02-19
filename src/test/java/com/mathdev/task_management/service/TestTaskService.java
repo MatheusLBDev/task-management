@@ -89,7 +89,7 @@ public class TestTaskService {
         String date = Instant.now().toString();
         //taskDto.setCreatedOn(date);
         taskDto.setExpireOn(date);
-        taskDto.setPriority(String.valueOf(Priority.High));
+        taskDto.setPriority(Priority.High);
         taskDto.setStatus(Status.Ready);
         taskDto.setDescription("Teste");
         //taskDto.setUpdatedOn(date);

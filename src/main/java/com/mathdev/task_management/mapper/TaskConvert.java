@@ -1,6 +1,5 @@
 package com.mathdev.task_management.mapper;
 
-import com.mathdev.task_management.api.Priority;
 import com.mathdev.task_management.api.TaskDto;
 import com.mathdev.task_management.db.entity.TaskEntity;
 import org.springframework.stereotype.Component;
@@ -17,7 +16,7 @@ public class TaskConvert {
         TaskEntity taskEntity = new TaskEntity();
         taskEntity.setTitle(taskDto.getTitle());
         taskEntity.setExpireOn(convertStringToInstant(taskDto.getExpireOn()));
-        taskEntity.setPriority(Priority.valueOf(taskDto.getPriority()));
+        taskEntity.setPriority(taskDto.getPriority());
         taskEntity.setStatus(taskDto.getStatus());
         taskEntity.setDescription(taskDto.getDescription());
         return taskEntity;
@@ -27,7 +26,7 @@ public class TaskConvert {
         TaskDto taskDto = new TaskDto();
         taskDto.setTitle(taskEntity.getTitle());
         taskDto.setExpireOn(convertInstantToString(taskEntity.getExpireOn()));
-        taskDto.setPriority(taskEntity.getPriority().name());
+        taskDto.setPriority(taskEntity.getPriority());
         taskDto.setStatus(taskEntity.getStatus());
         taskDto.setDescription(taskEntity.getDescription());
         taskDto.setCreatedOn(convertInstantToString(taskEntity.getCreatedOn()));

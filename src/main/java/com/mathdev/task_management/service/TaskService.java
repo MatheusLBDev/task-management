@@ -9,7 +9,6 @@ import com.mathdev.task_management.exception.TaskNotFoundExceptions;
 import com.mathdev.task_management.mapper.TaskConvert;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -55,7 +54,7 @@ public class TaskService {
                 TaskEntity taskEntity = optionalTaskEntity.get();
                 taskEntity.setTitle(taskDto.getTitle());
                 taskEntity.setExpireOn(taskConvert.convertStringToInstant(taskDto.getExpireOn()));
-                taskEntity.setPriority(Priority.valueOf(taskDto.getPriority()));
+                taskEntity.setPriority(taskDto.getPriority());
                 taskEntity.setStatus(taskDto.getStatus());
                 taskEntity.setDescription(taskDto.getDescription());
                 taskRepository.save(taskEntity);

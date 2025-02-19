@@ -18,7 +18,7 @@ public class TaskDto {
     private String expireOn;
 
 
-    private String priority;
+    private Priority priority;
 
     private Status status;
     @NotEmpty(message = "Description is mandatory")
@@ -69,11 +69,11 @@ public class TaskDto {
         this.expireOn = expireOn;
     }
 
-    public String getPriority() {
+    public Priority getPriority() {
         return priority;
     }
 
-    public void setPriority(String priority) {
+    public void setPriority(Priority priority) {
         this.priority = priority;
     }
 
