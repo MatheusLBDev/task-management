@@ -10,19 +10,32 @@ public class TaskDto {
     private UUID id;
     @NotEmpty(message = "Title should not be null")
     private String title;
-
     private String createdOn;
-
     private String updatedOn;
     @NotEmpty(message = "Expire Date cannot be empty, please inform!")
     private String expireOn;
-
-
     private Priority priority;
-
     private Status status;
     @NotEmpty(message = "Description is mandatory")
     private String description;
+    private String statusClass;
+    private String priorityClass;
+
+    public String getStatusClass() {
+        return statusClass;
+    }
+
+    public void setStatusClass(String statusClass) {
+        this.statusClass = statusClass;
+    }
+
+    public String getPriorityClass() {
+        return priorityClass;
+    }
+
+    public void setPriorityClass(String priorityClass) {
+        this.priorityClass = priorityClass;
+    }
 
     public TaskDto(){
 
