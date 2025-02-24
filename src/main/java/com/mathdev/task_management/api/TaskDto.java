@@ -2,7 +2,7 @@ package com.mathdev.task_management.api;
 
 import jakarta.validation.constraints.NotEmpty;
 
-import java.time.Instant;
+
 import java.util.UUID;
 
 public class TaskDto {
@@ -10,18 +10,32 @@ public class TaskDto {
     private UUID id;
     @NotEmpty(message = "Title should not be null")
     private String title;
-
-    private Instant createdOn;
-
-    private Instant updatedOn;
+    private String createdOn;
+    private String updatedOn;
     @NotEmpty(message = "Expire Date cannot be empty, please inform!")
-    private Instant expireOn;
-
+    private String expireOn;
     private Priority priority;
-
     private Status status;
     @NotEmpty(message = "Description is mandatory")
     private String description;
+    private String statusClass;
+    private String priorityClass;
+
+    public String getStatusClass() {
+        return statusClass;
+    }
+
+    public void setStatusClass(String statusClass) {
+        this.statusClass = statusClass;
+    }
+
+    public String getPriorityClass() {
+        return priorityClass;
+    }
+
+    public void setPriorityClass(String priorityClass) {
+        this.priorityClass = priorityClass;
+    }
 
     public TaskDto(){
 
@@ -43,27 +57,28 @@ public class TaskDto {
         this.title = title;
     }
 
-    public Instant getCreatedOn() {
+
+    public String getCreatedOn() {
         return createdOn;
     }
 
-    public void setCreatedOn(Instant createdOn) {
+    public void setCreatedOn(String createdOn) {
         this.createdOn = createdOn;
     }
 
-    public Instant getUpdatedOn() {
+    public String getUpdatedOn() {
         return updatedOn;
     }
 
-    public void setUpdatedOn(Instant updatedOn) {
+    public void setUpdatedOn(String updatedOn) {
         this.updatedOn = updatedOn;
     }
 
-    public Instant getExpireOn() {
+    public String getExpireOn() {
         return expireOn;
     }
 
-    public void setExpireOn(Instant expireOn) {
+    public void setExpireOn(String expireOn) {
         this.expireOn = expireOn;
     }
 

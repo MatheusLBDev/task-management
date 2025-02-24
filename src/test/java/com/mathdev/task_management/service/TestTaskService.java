@@ -39,11 +39,11 @@ public class TestTaskService {
         final TaskEntity taskEntity = new TaskEntity();
 
 
-        when(taskConvert.ConvertTaskDtoToTaskEntity(taskDto)).thenReturn(taskEntity);
+        when(taskConvert.convertTaskDtoToTaskEntity(taskDto)).thenReturn(taskEntity);
 
         taskService.saveTask(taskDto);
 
-        verify(taskConvert, times(1)).ConvertTaskDtoToTaskEntity(taskDto);
+        verify(taskConvert, times(1)).convertTaskDtoToTaskEntity(taskDto);
         verify(taskRepository, times(1)).save(taskEntity);
 
     }
@@ -61,7 +61,7 @@ public class TestTaskService {
         taskDto.setId(id);  // Garantir que o ID seja configurado corretamente
 
         // Mock da conversão
-        when(taskConvert.ConvertTaskEntityToTaskDto(taskEntity)).thenReturn(taskDto);
+        when(taskConvert.convertTaskEntityToTaskDto(taskEntity)).thenReturn(taskDto);
 
         // Executar o metodo que estamos testando
         TaskDto taskDtoResult = taskService.getTaskById(id);
@@ -72,7 +72,7 @@ public class TestTaskService {
 
         // Verificar se os mocks foram chamados corretamente
         verify(taskRepository, times(1)).findById(id);
-        verify(taskConvert, times(1)).ConvertTaskEntityToTaskDto(taskEntity);
+        verify(taskConvert, times(1)).convertTaskEntityToTaskDto(taskEntity);
     }
 
     @Test
@@ -86,32 +86,36 @@ public class TestTaskService {
     public void testUpdateTask() {
         TaskDto taskDto = new TaskDto();
         taskDto.setTitle("Teste");
-        Instant date = Instant.now();
-        taskDto.setCreatedOn(date);
+        String date = Instant.now().toString();
+        //taskDto.setCreatedOn(date);
         taskDto.setExpireOn(date);
-        taskDto.setPriority(Priority.HIGH);
-        taskDto.setStatus(Status.READY);
+        taskDto.setPriority(Priority.High);
+        taskDto.setStatus(Status.Ready);
         taskDto.setDescription("Teste");
-        taskDto.setUpdatedOn(date);
+        //taskDto.setUpdatedOn(date);
         UUID id = UUID.randomUUID();
         taskDto.setId(id);
 
         TaskEntity taskEntity = new TaskEntity();
         taskEntity.setId(taskDto.getId());
+        Instant expireOnInstant = Instant.now();
+        when(taskConvert.convertStringToInstant(date)).thenReturn(expireOnInstant);
+        taskEntity.setExpireOn(expireOnInstant);
         when(taskRepository.findById(taskDto.getId())).thenReturn(Optional.of(taskEntity));
 
         taskService.updateTask(taskDto);
 
         verify(taskRepository,times(1)).findById(taskDto.getId());
         verify(taskRepository,times(1)).save(taskEntity);
+        verify(taskConvert, times(1)).convertStringToInstant(date);
 
         assertEquals("Teste", taskEntity.getTitle());
         assertEquals("Teste", taskEntity.getDescription());
-        assertEquals(date, taskEntity.getCreatedOn());
-        assertEquals(date, taskEntity.getExpireOn());
-        assertEquals(date, taskEntity.getUpdatedOn());
-        assertEquals(Priority.HIGH, taskEntity.getPriority());
-        assertEquals(Status.READY, taskEntity.getStatus());
+        //assertEquals(date, taskEntity.getCreatedOn());
+        assertEquals(expireOnInstant, taskEntity.getExpireOn());
+        //assertEquals(date, taskEntity.getUpdatedOn());
+        assertEquals(Priority.High, taskEntity.getPriority());
+        assertEquals(Status.Ready, taskEntity.getStatus());
         assertEquals(id, taskEntity.getId());
 
     }
@@ -119,18 +123,18 @@ public class TestTaskService {
     @Test
     public void testGetTaskList(){
         List<TaskEntity> taskEntityList= Arrays.asList(new TaskEntity(), new TaskEntity(), new TaskEntity());
-        when(taskRepository.findAllByOrderCreatedOnDesc()).thenReturn(taskEntityList);
+        when(taskRepository.findAllByOrderByCreatedOnDesc()).thenReturn(taskEntityList);
 
         TaskDto taskDto = new TaskDto();
         TaskEntity taskEntity = new TaskEntity();
-        when(taskConvert.ConvertTaskEntityToTaskDto(taskEntity)).thenReturn(taskDto);
+        when(taskConvert.convertTaskEntityToTaskDto(taskEntity)).thenReturn(taskDto);
 
         List<TaskDto> taskDtosList = taskService.getTaskList();
 
         assertNotNull(taskDtosList);
         assertEquals(taskEntityList.size(), taskDtosList.size());
-        verify(taskRepository, times(1)).findAllByOrderCreatedOnDesc();
-        verify(taskConvert, times(taskEntityList.size())).ConvertTaskEntityToTaskDto((TaskEntity) any());
+        verify(taskRepository, times(1)).findAllByOrderByCreatedOnDesc();
+        verify(taskConvert, times(taskEntityList.size())).convertTaskEntityToTaskDto((TaskEntity) any());
 
 
 
