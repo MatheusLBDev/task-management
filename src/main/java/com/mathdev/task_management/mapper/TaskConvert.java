@@ -1,7 +1,5 @@
 package com.mathdev.task_management.mapper;
 
-import com.mathdev.task_management.api.Priority;
-import com.mathdev.task_management.api.Status;
 import com.mathdev.task_management.api.TaskDto;
 import com.mathdev.task_management.db.entity.TaskEntity;
 import org.springframework.stereotype.Component;
@@ -34,8 +32,6 @@ public class TaskConvert {
         taskDto.setCreatedOn(convertInstantToString(taskEntity.getCreatedOn()));
         taskDto.setUpdatedOn(convertInstantToString(taskEntity.getUpdatedOn()));
         taskDto.setId(taskEntity.getId());
-        taskDto.setStatusClass(getStatusClass(taskEntity.getStatus()));
-        taskDto.setPriorityClass(getPriorityClass(taskEntity.getPriority()));
         return taskDto;
     }
 
@@ -52,38 +48,6 @@ public class TaskConvert {
         } catch ( ParseException pe) {
             throw new IllegalArgumentException("Error during date parse" + pe.getMessage());
         }
-    }
-
-    private String getStatusClass(Status status){
-        return switch (status) {
-            case Progress -> "badge badge-primary";
-            case Done -> "badge badge-success";
-            default -> "badge badge-secondary";
-        } ;
-    }
-
-    private String getPriorityClass(Priority priority){
-        return switch (priority) {
-            case Normal -> "badge badge-primary";
-            case High -> "badge badge-danger";
-            default -> "badge badge-secondary";
-        } ;
-    }
-
-    public Status convertStatus(String status){
-        switch (status){
-            case "Ready" -> {
-                return Status.Ready;
-            }
-            case "Done" -> {
-                return Status.Done;
-            }
-            case "Progress" -> {
-                return Status.Progress;
-            }
-
-        }
-     return null;
     }
 
 }

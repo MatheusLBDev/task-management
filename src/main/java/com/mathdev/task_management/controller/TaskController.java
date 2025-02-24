@@ -6,7 +6,6 @@ import jakarta.annotation.Nullable;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -20,10 +19,6 @@ import java.util.UUID;
 @Controller("/")
 public class TaskController {
     private final TaskService taskService;
-    private String globalStatus;
-    private static final int PAGE_SIZE = 10;
-    private static final int PAGE_NO = 1;
-    private Integer SELECTED_PAGE;
 
     @Autowired
     public TaskController(final TaskService taskService) {
@@ -33,17 +28,9 @@ public class TaskController {
     @GetMapping("/")
     public ModelAndView home(@ModelAttribute("alertMessage") @Nullable String alertMessage) {
         ModelAndView mv = new ModelAndView("index");
-        if(SELECTED_PAGE == null) {
-            SELECTED_PAGE = PAGE_NO;
-        }
-        Page<TaskDto> page = taskService.getTaskListPaginated(SELECTED_PAGE, PAGE_SIZE, globalStatus);
-        List<TaskDto> taskDtoList = page.getContent();
+        List<TaskDto> taskDtoList = taskService.getTaskList();
         mv.addObject("taskDtoList", taskDtoList);
-        mv.addObject("currentPage", SELECTED_PAGE);
-        mv.addObject("totalPages", page.getTotalPages());
-        mv.addObject("totalItems", page.getTotalElements());
         mv.addObject("alertMessage", alertMessage);
-        SELECTED_PAGE = null;
         return mv;
     }
 
@@ -102,33 +89,9 @@ public class TaskController {
     @DeleteMapping("/delete-task/{id}")
     public ModelAndView deleteTask(@PathVariable UUID id){
         taskService.deleteTask(id);
+        List<TaskDto> taskDtoList = taskService.getTaskList();
         ModelAndView mv = new ModelAndView("components/task-card");
-        Page<TaskDto> page = taskService.getTaskListPaginated(SELECTED_PAGE != null ? SELECTED_PAGE : 1, PAGE_SIZE, globalStatus);
-        List<TaskDto> taskDtoList = page.getContent();
         mv.addObject("taskDtoList", taskDtoList);
-        mv.addObject("currentPage", SELECTED_PAGE != null ? SELECTED_PAGE : 1);
-        mv.addObject("totalPages", page.getTotalPages());
-        mv.addObject("totalItems", page.getTotalElements());
-        return mv;
-    }
-
-    @GetMapping("/task-by-status")
-    public ModelAndView getTaskListByStatus(@RequestParam(name = "status", required = false) String statusParam) {
-        ModelAndView mv = new ModelAndView("redirect:/");
-        globalStatus = statusParam;
-        return mv;
-    }
-
-    @GetMapping("/page/{pageNo}")
-    public ModelAndView findPaginated (@PathVariable (value = "pageNo") int pageNo) {
-        ModelAndView mv = new ModelAndView("components/task-card");
-        SELECTED_PAGE = pageNo;
-        Page<TaskDto> page = taskService.getTaskListPaginated(pageNo, PAGE_SIZE, globalStatus);
-        List<TaskDto> taskDtoList = page.getContent();
-        mv.addObject("taskDtoList", taskDtoList);
-        mv.addObject("currentPage", pageNo);
-        mv.addObject("totalPages", page.getTotalPages());
-        mv.addObject("totalItems", page.getTotalElements());
         return mv;
     }
 
